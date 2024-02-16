@@ -2,16 +2,22 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 export const fetchMovies = createAsyncThunk('fetch-movies', async (apiUrl) => {
     const response = await fetch(apiUrl)
-    return response.json()
+    const movies=await response.json()
+    return movies.results
 })
 
 const moviesSlice = createSlice({
     name: 'movies',
     initialState: { 
         movies: [],
+        searchResults:[],
         fetchStatus: '',
     },
-    reducers: {},
+    reducers: {
+        setSearchResults:(state, action)=>{
+            state.searchResults=action.payload.movies
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchMovies.fulfilled, (state, action) => {
             state.movies = action.payload
@@ -23,5 +29,6 @@ const moviesSlice = createSlice({
         })
     }
 })
+export const {setSearchResults}= moviesSlice.actions
 
 export default moviesSlice
