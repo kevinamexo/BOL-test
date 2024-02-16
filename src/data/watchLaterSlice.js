@@ -19,4 +19,5 @@ const watchLaterSlice = createSlice({
     },
 })
 
+export const {addToWatchLater, removeFromWatchLater, remveAllWatchLater}= watchLaterSlice.actions
 export default watchLaterSlice
