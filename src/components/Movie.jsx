@@ -5,7 +5,6 @@ import placeholder from '../assets/not-found-500X750.jpeg'
 import '../styles/Movie.css'
 import {openModal} from '../data/modalSlice'
 import fetchMovieTrailerKey from '../utils/getMovieTrailer'
-import {Link} from 'react-router-dom'
 
 const Movie = ({ movie, viewTrailer, closeCard }) => {
 
@@ -35,7 +34,7 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
                 <div className="overlay" />
                 <div className="info_panel">
                     <div className="overview">{movie.overview}</div>
-                    <Link className='read-more' onClick={handleViewTrailer}>Read more...</Link>
+                    <spain className='read-more' onClick={handleViewTrailer}>Read more...</spain>
                     <div className="year">{movie.release_date?.substring(0, 4)}</div>
                     {!starred.starredMovies.map(movie => movie.id).includes(movie.id) ? (
                         <span className="btn-star" data-testid="starred-link" onClick={() => 
