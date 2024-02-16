@@ -14,13 +14,14 @@ import './app.scss'
 const App = () => {
 
   const state = useSelector((state) => state)
-  const { movies } = state  
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('search')
   const [videoKey, setVideoKey] = useState()
   const [isOpen, setOpen] = useState(false)
   const navigate = useNavigate()
+  const {searchResults, movies} =useSelector(state=>state.movies)
+  
   
   const closeModal = () => setOpen(false)
   
@@ -71,6 +72,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    console.log('START FETCH')
     getMovies()
   }, [])
 
@@ -88,7 +90,7 @@ const App = () => {
         )}
 
         <Routes>
-          <Route path="/" element={<Movies movies={movies} viewTrailer={viewTrailer} closeCard={closeCard} />} />
+          <Route path="/" element={<Movies movies={searchResults.length?searchResults:movies} viewTrailer={viewTrailer} closeCard={closeCard} />} />
           <Route path="/starred" element={<Starred viewTrailer={viewTrailer} />} />
           <Route path="/watch-later" element={<WatchLater viewTrailer={viewTrailer} />} />
           <Route path="*" element={<h1 className="not-found">Page Not Found</h1>} />

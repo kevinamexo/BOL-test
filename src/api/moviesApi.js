@@ -1,14 +1,11 @@
 import { ENDPOINT_DISCOVER, ENDPOINT_SEARCH, ENDPOINT_MOVIE, API_KEY, ENDPOINT} from "../constants";
 
 export const fetchDiscoverMovies = async (page) => {
-  console.log(page)
   try {
-    console.log('FETCHIBBG')
     const response = await fetch(`${ENDPOINT_DISCOVER}${page>0?`&page=${page}`:'1'}`);
     if (!response.ok) {
       throw new Error("failed to fetch movies by query");
     }
-    console.log(response)
     const data = await response.json();
     const discoverMovies = data.results;
     return discoverMovies;
