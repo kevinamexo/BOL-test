@@ -7,6 +7,8 @@ const watchLaterSlice = createSlice({
     },
     reducers: {
         addToWatchLater: (state, action) => {
+            const findMovie=state.watchLaterMovies.some(movie=>movie.id==action.payload.id)
+            if(findMovie) return
             state.watchLaterMovies = [action.payload, ...state.watchLaterMovies]
         },
         removeFromWatchLater: (state, action) => {
