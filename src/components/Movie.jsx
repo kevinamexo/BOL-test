@@ -2,6 +2,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import starredSlice from '../data/starredSlice'
 import watchLaterSlice from '../data/watchLaterSlice'
 import placeholder from '../assets/not-found-500X750.jpeg'
+import '../styles/Movie.css'
+import {openModal} from '../data/modalSlice'
+import fetchMovieTrailerKey from '../utils/getMovieTrailer'
+import {Link} from 'react-router-dom'
 
 const Movie = ({ movie, viewTrailer, closeCard }) => {
 
@@ -11,6 +15,11 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
     const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions
 
     const dispatch = useDispatch()
+    const handleViewTrailer=async()=>{
+
+        const {videoKey, movieData}=await fetchMovieTrailerKey(movie.id)
+        dispatch(openModal({videoKey,movieData:movieData}))
+    }
 
     const myClickHandler = (e) => {
         if (!e) var e = window.event
@@ -21,11 +30,12 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
 
     return (
         <div className="wrapper col-3 col-sm-4 col-md-3 col-lg-3 col-xl-2">
-        <div className="card" onClick={(e) => e.currentTarget.classList.add('opened')} >
+        <div className="card movie-card" onClick={(e) => e.currentTarget.classList.add('opened')} >
             <div className="card-body text-center">
                 <div className="overlay" />
                 <div className="info_panel">
                     <div className="overview">{movie.overview}</div>
+                    <Link className='read-more' onClick={handleViewTrailer}>Read more...</Link>
                     <div className="year">{movie.release_date?.substring(0, 4)}</div>
                     {!starred.starredMovies.map(movie => movie.id).includes(movie.id) ? (
                         <span className="btn-star" data-testid="starred-link" onClick={() => 
@@ -55,7 +65,7 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
                     ) : (
                         <button type="button" data-testid="remove-watch-later" className="btn btn-light btn-watch-later blue" onClick={() => dispatch(removeFromWatchLater(movie))}><i className="bi bi-check"></i></button>
                     )}
-                    <button type="button" className="btn btn-dark" onClick={() => viewTrailer(movie)}>View Trailer</button>                                                
+                    <button type="button" className="btn btn-dark" onClick={handleViewTrailer}>View Trailer</button>                                                
                 </div>
                 <img className="center-block" src={(movie.poster_path) ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : placeholder} alt="Movie poster" />
             </div>
@@ -65,7 +75,7 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    </div>        
+        </div> 
     )
 }
 
