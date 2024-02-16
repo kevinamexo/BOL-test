@@ -1,0 +1,79 @@
+.modal-container{
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height:100vh;
+    width:100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+    z-index:999;
+}
+
+
+.movie-modal{
+    background-color: rgb(7, 7, 7);
+    padding:60px;
+    border-radius: 10px;
+    position: relative;
+    width:760px
+}
+
+.movie-modal .overview{
+    margin-top: 10px;
+    color: #fff;
+    text-align: left;
+}
+.close-modal-btn{
+    font-size: 40px;
+    position: absolute;
+    top:10px;
+    right:20px;
+    color:rgb(19, 119, 220);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+
+.close-modal-btn:hover{
+    background-color: rgb(52, 81, 109);
+}
+
+
+.actions{
+    display: flex;  
+    gap:10px;
+    justify-content: center;
+    color:white;
+
+    
+}
+.actions button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border:none;
+    font-weight: 600;
+    font-size:16px;
+    height: auto!important;
+    
+}
+
+.actions .add-favourites{
+    color:#fff;
+   background-color:red;
+}
+
+.actions .add-favourites:hover{
+    background-color:rgb(210, 4, 4);
+
+}
+
+.actions .watch-later:hover{
+    background-color:rgb(211, 211, 211);
+
+}
+
+
