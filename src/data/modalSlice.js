@@ -13,7 +13,7 @@ export const modalSlice = createSlice({
         state.movieTrailerModal = true
         state.videoKey = action.payload.videoKey
         state.movie= action.payload.movieData
-        
+    
       },
       closeModal: state => {
         state.movieTrailerModal = false

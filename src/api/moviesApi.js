@@ -1,4 +1,4 @@
-import { ENDPOINT_DISCOVER, ENDPOINT_SEARCH, ENDPOINT_MOVIE, API_KEY, ENDPOINT} from "../constants";
+import { ENDPOINT_DISCOVER, ENDPOINT_SEARCH, API_KEY, ENDPOINT} from "../constants";
 
 export const fetchDiscoverMovies = async (page) => {
   try {
