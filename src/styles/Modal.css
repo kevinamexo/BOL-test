@@ -14,18 +14,43 @@
 }
 
 
-.movie-modal{
-    background-color: rgb(7, 7, 7);
-    padding:60px;
-    border-radius: 10px;
-    position: relative;
-    width:760px
+.open{
+    display: block;
+    transition: opacity 0.8s ease;
+
 }
 
-.movie-modal .overview{
+.close{
+    display: none;
+
+}
+.movie-modal{
+    background-color: rgb(24, 24, 24);
+    /* padding:60px; */
+    border-radius: 10px;
+    position: relative;
+    width:760px;
+    animation: modalZoomIn 0.1s ease forwards;
+
+
+}
+
+.movie-modal .title{
     margin-top: 10px;
     color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
     text-align: left;
+    padding:0 60px;
+    font-size: 20px;
+
+}
+.movie-modal .overview{
+    margin-top: 20px;
+    color: #fff;
+    text-align: left;
+    padding: 0 60px;
+
 }
 .close-modal-btn{
     font-size: 40px;
@@ -34,12 +59,13 @@
     right:20px;
     color:rgb(19, 119, 220);
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 50px;
 }
 
 
 .close-modal-btn:hover{
-    background-color: rgb(52, 81, 109);
+    background-color: rgb(65, 72, 80);
+    transition: ease-in 0.2s;
 }
 
 
@@ -48,6 +74,7 @@
     gap:10px;
     justify-content: center;
     color:white;
+    padding: 0px 60px;
 
     
 }
@@ -64,17 +91,21 @@
 .actions .add-favourites{
     color:#fff;
     background-color:red;
+    transition: ease-in 0.2s;
 }
 
 .actions .add-favourites:hover{
     background-color:rgb(210, 4, 4);
+    transition: ease-in 0.2s;
 
 }
 
 .actions .watch-later:hover{
     background-color:rgb(211, 211, 211);
+    transition: ease-in 0.2s;
 
 }
+
 
 
 @media screen and (max-width:760px) {
@@ -82,10 +113,16 @@
         height:100vh;
         width: 100vw;
     }
-    .overview{
-        font-size: 13px;
+    .movie-modal .overview,
+    .movie-modal .title{
+        padding:0 20px
     }
+    .movie-modal .overview{
+        font-size: 13px;
+        
     
+    
+  }
 }
 @media (max-width: 480px) {
     .actions button{
@@ -96,3 +133,22 @@
 
 }
 
+
+
+@keyframes modalFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes modalZoomIn {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
