@@ -2,8 +2,7 @@ import {fetchMovieDetails} from '../api/moviesApi'
 
 const fetchMovieTrailerKey =async(id)=>{
     const videoData= await fetchMovieDetails(id)
-    console.log('video data')
-    console.log(videoData)
+
     if (videoData.videos && videoData.videos.results.length) {
         const trailer = videoData.videos.results.find(
             (vid) => vid.type === "Trailer"

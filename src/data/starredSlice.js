@@ -9,7 +9,6 @@ const starredSlice = createSlice({
         starMovie: (state, action) => {
             const findMovie=state.starredMovies.some(movie=>movie.id==action.payload.id)
             if(findMovie) return
-            console.log(action.payload)
             state.starredMovies = [action.payload, ...state.starredMovies]
         },
         unstarMovie: (state, action) => {

@@ -10,7 +10,6 @@ export const fetchDiscoverMovies = async (page) => {
     const discoverMovies = data.results;
     return discoverMovies;
   } catch (error) {
-    console.log("Error fetching Discover movies", error);
     throw error;
   }
 };
@@ -27,7 +26,6 @@ export const fetchMoviesByQuery = async (queryString) => {
     const searchMovies = await data.results;
     return searchMovies;
   } catch (error) {
-    console.log("Error fetching movies by query", error);
     throw error;
   }
 };
@@ -37,7 +35,6 @@ export const fetchMovieDetails= async(id)=>{
   try {
     if(!id) return
     const movieDetailsUrl= `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
-    console.log(movieDetailsUrl)
     const response = await fetch(movieDetailsUrl);
     if (!response.ok) {
       throw new Error("failed to fetch movie details");
@@ -46,7 +43,6 @@ export const fetchMovieDetails= async(id)=>{
    
     return movieDetails;
   } catch (error) {
-    console.log("Error fetching movies details", error);
     throw error;
   }
 }
