@@ -1,47 +1,103 @@
-import { Link, NavLink } from "react-router-dom"
-import { useSelector } from 'react-redux'
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import useDebounce from "../hooks/useDebounce";
+import "../styles/header.scss";
+import { useEffect, useState } from "react";
+import { fetchMoviesByQuery } from "../api/moviesApi";
+import { setSearchResults, setPage, setSearchTerm } from "../data/moviesSlice";
+import { useSearchParams } from "react-router-dom";
+import { CiTimer } from "react-icons/ci";
+import useScreenWidth from "../hooks/useScreenWidth";
 
-import '../styles/header.scss'
+const Header = ({ initialFetch }) => {
+  const { starredMovies } = useSelector((state) => state.starred);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [searchInputValue, setSearchInputValue] = useState("");
+  const debouncedSearchTerm = useDebounce(searchInputValue, 300);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const screenWidth = useScreenWidth();
 
-const Header = ({ searchMovies }) => {
-  
-  const { starredMovies } = useSelector((state) => state.starred)
+  const getSearchResults = async () => {
+    const searchResults = await fetchMoviesByQuery(debouncedSearchTerm);
+    dispatch(setSearchResults({ movies: searchResults }));
+    return searchResults;
+  };
+
+  useEffect(() => {
+    navigate("/");
+    dispatch(setPage(1));
+    dispatch(setSearchTerm(debouncedSearchTerm));
+    if (!debouncedSearchTerm.length > 0 && initialFetch === false) {
+      setSearchInputValue("");
+      dispatch(setSearchResults({ movies: [] }));
+    } else {
+      setSearchParams(
+        debouncedSearchTerm ? { search: debouncedSearchTerm } : {}
+      );
+      getSearchResults();
+    }
+
+    return () => {
+      dispatch(setSearchResults({ movies: [] }));
+      dispatch(setPage(1));
+      setSearchParams({}); // Clear search parameters
+    };
+  }, [debouncedSearchTerm]);
 
   return (
     <header>
-      <Link to="/" data-testid="home" onClick={() => searchMovies('')}>
+      <Link
+        to="/"
+        data-testid="home"
+        onClick={() => {
+          setSearchInputValue("");
+        }}
+      >
         <i className="bi bi-film" />
       </Link>
 
+      <div className="search-input-group rounded">
+        <input
+          type="search"
+          data-testid="search-movies"
+          onChange={(e) => {
+            window.scrollTo(0, 0);
+            setSearchInputValue(e.target.value);
+          }}
+          value={searchInputValue}
+          className="form-control rounded"
+          placeholder="Search movies..."
+          aria-label="Search movies"
+          aria-describedby="search-addon"
+        />
+      </div>
+
       <nav>
-        <NavLink to="/starred" data-testid="nav-starred" className="nav-starred">
+        <NavLink
+          to="/starred"
+          data-testid="nav-starred"
+          className="nav-starred"
+        >
           {starredMovies.length > 0 ? (
             <>
-            <i className="bi bi-star-fill bi-star-fill-white" />
-            <sup className="star-number">{starredMovies.length}</sup>
+              <i className="bi bi-star-fill bi-star-fill-white" />
+              <sup className="star-number">{starredMovies.length}</sup>
             </>
           ) : (
             <i className="bi bi-star" />
           )}
         </NavLink>
         <NavLink to="/watch-later" className="nav-fav">
-          watch later
+          {screenWidth > 480 ? (
+            "watch later"
+          ) : (
+            <CiTimer className="header-icon" />
+          )}
         </NavLink>
       </nav>
-
-      <div className="input-group rounded">
-        <Link to="/" onClick={(e) => searchMovies('')} className="search-link" >
-          <input type="search" data-testid="search-movies"
-            onKeyUp={(e) => searchMovies(e.target.value)} 
-            className="form-control rounded" 
-            placeholder="Search movies..." 
-            aria-label="Search movies" 
-            aria-describedby="search-addon" 
-            />
-        </Link>            
-      </div>      
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

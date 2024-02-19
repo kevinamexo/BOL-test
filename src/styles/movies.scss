@@ -1,6 +1,7 @@
 .container {
     padding-top: 100px;
     color: #fff;
+    min-height:100vh;
 
     @media (max-width: 720px) {
         padding-top: 70px;        
@@ -14,6 +15,12 @@
     .wrapper {
         padding: 0 6px;
         margin-bottom: 2rem;
+        max-width: 400px;
+
+    }
+
+    .card{
+        border-radius: 15px;
     }
 
     .card, 
@@ -51,27 +58,49 @@
             margin: 0 5px;
             color: #e50914;
         }
-    
-        .overview {
-            height: 85px;
-            padding: 5px;
-            margin-bottom: 5px;
-            overflow: scroll;
-            font-size: 0.7rem;
-            line-height: 105%;
-    
+
+        .bi-star-fill,
+        .bi-star{
+            font-size:30px;
+
             @media (max-width: 720px) {
                 height: 60px;
                 padding: 3px;
                 margin-bottom: 2px;                    
             }
+        }
+    
+        .overview {
+            margin-bottom: 5px;
+            overflow: hidden;
+            font-size: 0.7rem;
+            display: -webkit-box;
+            -webkit-line-clamp:4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;    
+
+            @media (max-width: 720px) {
+                height: 190px;
+                padding: 3px;
+                margin-bottom: 2px;  
+            }
     
             @media (max-width: 480px) {
-                height: 185px;
+                height: 85px;
                 margin-bottom: 40px;
                 font-size: 1rem;
                 line-height: 115%;
             }
+
+            
+            
+        }
+
+        .read-more{
+            font-size: 10px;
+            color:#1CB5E0;
+            cursor: pointer;
         }
     }    
 
@@ -142,11 +171,14 @@
         margin: 8px auto;
         font-size: 0.6rem;
         text-align: center;
+        font-weight: 600;
+       
 
         @media (max-width: 720px) {
-            height: 20px;
+            height: auto;
             padding: 2px 2px;
-            font-size: 0.6rem;
+            font-size: 1rem;
+            padding: 15px 0;
         }
 
         @media (max-width: 480px) {
@@ -256,7 +288,6 @@
             }
             .info_panel {
                 display: block;
-                opacity: 1;
             }                
 
             h6.title {
