@@ -8,19 +8,40 @@ header {
     background: rgba(0, 8, 81, 0.8);
     border: 1px solid transparent;
     border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    .header-icon{
+      font-size: 25px;
+      color:#fff
+    }
 
-    .input-group {
+    .search-input-group {
       float: right;
-      width: 200px;
+      width: 40%;
+      max-width: 400px;
       margin: 0.7rem 0 0;
 
       @media (max-width: 720px) {
-        width: 150px;
+        width: 60%;
+        max-width:250px;
+        margin-left:20px;
       }      
+      @media (max-width: 480px) {
+        width: 75%;
+      }   
 
       input {
         height: 25px;
         font-size: 0.8rem;
+        @media (max-width: 720px) {
+          width: 100%;
+        }   
+        @media (max-width: 480px) {
+          width: 100%;
+          margin:0 auto;
+        }   
       }
 
       .bi {
@@ -52,8 +73,21 @@ header {
           }
         }
       }
+
+
+      @media (max-width: 480px) {
+        font-size: 1rem;
+        line-height: 115%;
+        display: flex;
+        align-items: center;
+      }
     }
 
+    // .nav-starred{
+    //   position: relative;
+    // }
+    
+ 
     i {
       margin: 0.5rem;
       font-size: 1.2rem;
@@ -66,7 +100,7 @@ header {
       + .star-number {
         position: absolute;
         top: 1rem;
-        right: 6.1rem;
+        left: -5px;
         padding: 0.5rem 0.3rem;
         font-size: 0.65rem;
         font-weight: 600;

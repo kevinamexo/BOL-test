@@ -63,7 +63,7 @@
 
 .actions .add-favourites{
     color:#fff;
-   background-color:red;
+    background-color:red;
 }
 
 .actions .add-favourites:hover{
@@ -76,4 +76,23 @@
 
 }
 
+
+@media screen and (max-width:760px) {
+    .movie-modal{
+        height:100vh;
+        width: 100vw;
+    }
+    .overview{
+        font-size: 13px;
+    }
+    
+}
+@media (max-width: 480px) {
+    .actions button{
+        font-size: 10px !important;
+        padding:10px 5px !important;
+    }
+
+
+}
 

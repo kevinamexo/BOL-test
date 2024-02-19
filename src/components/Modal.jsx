@@ -12,6 +12,9 @@ import '../styles/Modal.css'
 const Modal = () => {
     const dispatch = useDispatch();
     const { movieTrailerModal,videoKey, movie} = useSelector((state) => state.modal);
+    const { starredMovies} = useSelector((state) => state.starred);
+    const favourited = starredMovies.some(item=>item.id===movie.id)
+
 
     const handleCloseModal = () => {
         dispatch(closeModal())
@@ -58,7 +61,7 @@ const Modal = () => {
         )}
         <div className="actions">
           <button className='watch-later' onClick={handleAddWatchLater}>Watch Later</button>
-          <button className='add-favourites' onClick={handleAddFavourites}>Add to Favourites</button>
+          <button className='add-favourites' onClick={handleAddFavourites}>{favourited?"Remove from Favourites":"Add to Favourites"}</button>
         </div>
     </div>
   )
