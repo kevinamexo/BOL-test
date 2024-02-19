@@ -4,16 +4,24 @@ import useDebounce from '../hooks/useDebounce'
 import '../styles/header.scss'
 import { useEffect,useState} from "react"
 import { fetchMoviesByQuery} from "../api/moviesApi"
-import {setSearchResults,fetchMovies} from '../data/moviesSlice'
-import {ENDPOINT_DISCOVER} from  '../constants'
+import {setSearchResults, setPage} from '../data/moviesSlice'
+import { useSearchParams } from 'react-router-dom';
+import { CiTimer } from "react-icons/ci";
+import useScreenWidth from '../hooks/useScreenWidth';
 
-const Header = ({ searchMovies }) => {
+
+const Header = ({initialFetch}) => {
   
   const { starredMovies } = useSelector((state) => state.starred)
+  const { page } = useSelector((state) => state.movies)
   const dispatch= useDispatch()
   const navigate= useNavigate()
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm= useDebounce(searchTerm,300)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const screenWidth = useScreenWidth();
+
+
 
   const getSearchResults= async()=>{
     const searchResults= await fetchMoviesByQuery(debouncedSearchTerm)
@@ -24,22 +32,53 @@ const Header = ({ searchMovies }) => {
 
   useEffect(()=>{
     navigate('/')
-    if(!debouncedSearchTerm.length){
+    dispatch(setPage(1))
+    if(!debouncedSearchTerm.length>0 && initialFetch===false){
+     
       setSearchTerm('')
       dispatch(setSearchResults({movies:[]}))
-      dispatch(fetchMovies(ENDPOINT_DISCOVER))
-    }else{
+     
+    }else {
+      setSearchParams(debouncedSearchTerm?{ search: debouncedSearchTerm }:{});
       getSearchResults()
+      
+    }
+
+    return()=>{
+      dispatch(setSearchResults({movies:[]}))
+      dispatch(setPage(1))
+      setSearchParams({}); // Clear search parameters
+
     }
   },[debouncedSearchTerm])
 
+
+  
+
   return (
     <header>
-      <Link to="/" data-testid="home" onClick={() => searchMovies('')}>
+      <Link to="/" data-testid="home" onClick={() => {
+        setSearchTerm('')
+      }
+      }>
         <i className="bi bi-film" />
       </Link>
 
-      <nav>
+      <div className="search-input-group rounded">
+          <input type="search" data-testid="search-movies"
+            onChange={(e)=>{
+              window.scrollTo(0, 0);
+              setSearchTerm(e.target.value)
+            }}
+            value={searchTerm}
+            className="form-control rounded" 
+            placeholder="Search movies..." 
+            aria-label="Search movies" 
+            aria-describedby="search-addon" 
+            />
+      </div>   
+
+       <nav>
         <NavLink to="/starred" data-testid="nav-starred" className="nav-starred">
           {starredMovies.length > 0 ? (
             <>
@@ -51,23 +90,9 @@ const Header = ({ searchMovies }) => {
           )}
         </NavLink>
         <NavLink to="/watch-later" className="nav-fav">
-          watch later
+          {screenWidth>480? "watch later": <CiTimer  className="header-icon"/>}
         </NavLink>
-      </nav>
-
-      <div className="input-group rounded">
-        <Link to="/" onClick={(e) => searchMovies('')} className="search-link" >
-          <input type="search" data-testid="search-movies"
-            // onKeyUp={(e) => searchMovies(e.target.value)} 
-            onChange={(e)=>setSearchTerm(e.target.value)}
-            value={searchTerm}
-            className="form-control rounded" 
-            placeholder="Search movies..." 
-            aria-label="Search movies" 
-            aria-describedby="search-addon" 
-            />
-        </Link>            
-      </div>      
+      </nav>   
     </header>
   )
 }
